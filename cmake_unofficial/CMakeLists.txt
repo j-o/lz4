@@ -28,6 +28,14 @@ if(UNIX AND BUILD_LIBS)
 endif()
 endif()
 
+if(MSVC)
+ADD_DEFINITIONS("-DUNICODE")
+ADD_DEFINITIONS("-D_UNICODE")
+add_definitions("/GL")
+endif()
+
+set(CMAKE_DEBUG_POSTFIX "d")
+
 set(LZ4_DIR ../lib/)
 set(PRG_DIR ../programs/)
 set(LZ4_SRCS_LIB ${LZ4_DIR}lz4.c ${LZ4_DIR}lz4hc.c ${LZ4_DIR}lz4.h ${LZ4_DIR}lz4hc.h ${LZ4_DIR}lz4frame.c ${LZ4_DIR}lz4frame.h ${LZ4_DIR}xxhash.c)
@@ -39,6 +47,7 @@ endif()
 
 if(BUILD_TOOLS)
     add_executable(lz4 ${LZ4_SRCS})
+    set_target_properties(lz4 PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
     install(TARGETS lz4 RUNTIME DESTINATION "bin/")
 endif()
 
